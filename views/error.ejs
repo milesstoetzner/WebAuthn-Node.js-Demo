@@ -1,0 +1,12 @@
+<% include templates/header.ejs %>
+
+<div class="header" style="background-color: #dc3545;">
+    <a href="/"><img alt="self-Logo" src="images/error.svg" width="35%" height="35%"></a>
+    <p class="header-text"><%= error.toUpperCase() %></p>
+</div>
+
+<div class="separator"></div>
+
+<p>Oops! Something went wrong!</p>
+
+<% include templates/footer.ejs %>

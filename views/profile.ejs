@@ -1,0 +1,22 @@
+<% include templates/header.ejs %>
+
+<div class="header">
+    <a href="/profile"><img alt="self-Logo" src="images/logo.svg" width="35%" height="35%"></a>
+    <p class="header-text"><%= user.displayName.toUpperCase() %></p>
+</div>
+
+<div class="separator"></div>
+
+<p>Welcome to your profile, <%= user.displayName %>!</p>
+<p>You can find more detailed information about your registration and authentication in the console of the browser and the server!</p>
+
+<div class="separator"></div>
+
+<form method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <a class="btn btn-primary btn-block" href="/user" target="_blank">Display Registered Information</a>
+    <button class="btn btn-primary btn-block" formaction="/register">Register Additional Device</button>
+    <button class="btn btn-primary btn-block" formaction="/logout">Logout</button>
+</form>
+
+<% include templates/footer.ejs %>

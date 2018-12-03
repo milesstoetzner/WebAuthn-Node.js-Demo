@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="author" content="Miles Stoetzner">
+    <meta name="contact" content="miles@stoetzner.de">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no">
+
+    <title><%= title %></title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <!-- Custom styles -->
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+<div id="content" class="container-fluid h-100 d-table" style="width: 300px; text-align: center">
+
+    <div class="d-table-cell align-middle" style="padding-top: 2rem; padding-bottom: 2rem">
+
+        <% if (success_msg) { success_msg.forEach(function(msg) { %>
+            <div class="alert bg-success text-center text-white"><%= msg %></div>
+        <% })} %>
+
+        <% if (error_msg) {error_msg.forEach(function(msg) { %>
+            <div class="alert bg-danger text-center text-white"><%= msg %></div>
+        <% })} %>
+
+        <div id="error" class="alert bg-danger text-white hidden"></div>
+        <script>
+            function showError(msg) {
+                document.getElementById('error').classList.remove('hidden');
+                return document.getElementById('error').innerText = msg;
+            }
+        </script>
+        <div class="card">
+            <div class="card-body">

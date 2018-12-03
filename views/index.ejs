@@ -1,0 +1,22 @@
+<% include templates/header.ejs %>
+<% include templates/logo.ejs %>
+
+<div class="separator"></div>
+
+<p>Welcome to <span class="brand">ASCENSUS</span>!<br>A place where everyone is save.</p>
+<p>Login or register a new account using WebAuthentication and a security token.</p>
+
+<div class="separator"></div>
+
+<form method="POST">
+    <div class="input-group mb-2">
+        <input type="hidden" name="_csrf" value="<%= csrf %>">
+        <input type="text" class="form-control" id="inlineFormInputGroup" name="name"
+               placeholder="Enter a displayname ..."
+               autofocus>
+    </div>
+    <button class="btn btn-primary btn-block" formaction="/authenticate">Login</button>
+    <button class="btn btn-primary btn-block" formaction="/register">Register</button>
+</form>
+
+<% include templates/footer.ejs %>

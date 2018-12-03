@@ -1,0 +1,27 @@
+{
+  "name": "webauthn",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^2.0.1",
+    "cookie-parser": "~1.4.3",
+    "csurf": "^1.9.0",
+    "debug": "~2.6.9",
+    "ejs": "~2.5.7",
+    "elliptic": "^6.4.1",
+    "express": "~4.16.0",
+    "express-session": "^1.15.6",
+    "http-errors": "~1.6.2",
+    "mongodb-memory-server": "^1.8.0",
+    "mongoose": "^5.1.7",
+    "morgan": "~1.9.0",
+    "npm": "^6.4.1",
+    "passport": "^0.4.0",
+    "serve-favicon": "^2.5.0",
+    "winston": "^2.4.3"
+  }
+}

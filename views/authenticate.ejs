@@ -1,0 +1,80 @@
+<% include templates/header.ejs %>
+<% include templates/logo.ejs %>
+
+<div class="separator"></div>
+
+<p>Please complete this action on your security token.</p>
+
+<div class="separator"></div>
+
+<% include templates/token.ejs %>
+
+<form action="/authenticate/callback" method="POST" id="form">
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <input type="hidden" name="PublicKeyCredential" id="PublicKeyCredentialInput">
+</form>
+
+<script src="/javascripts/cbor.js"></script>
+
+<script>
+
+    // This script is based on https://www.w3.org/TR/2018/CR-webauthn-20180807/#sample-authentication
+
+    "use strict";
+
+    console.log('Authentication');
+
+    // Step 1: Check if WebAuthentication API is available (and therefore if connection is secure)
+    if (!window.PublicKeyCredential) {
+        showError('Web Authentication API not found');
+        throw new Error("window.PublicKeyCredential is undefined!");
+    }
+
+    // Step 2: Encode challenge and each id in allowCredentials as Uint8Array
+    let options = <%- JSON.stringify(PublicKeyCredentialRequestOptions) %>;
+    options.challenge = new Uint8Array(options.challenge.data);
+
+    for (let i = 0; i < options.allowCredentials.length; i++) {
+        options.allowCredentials[i].id = new Uint8Array(options.allowCredentials[i].id.data);
+    }
+
+    console.log('PublicKeyCredentialRequestOptions:', options);
+
+    // Step 3: Call the registration on the authenticator using WebAuthentication API
+    navigator.credentials.get({"publicKey": options})
+        .then(function (PublicKeyCredential) {
+
+            console.log('raw PublicKeyCredential:', PublicKeyCredential);
+
+            // Step 4: Encode the received answer as JSON
+            let PublicKeyCredentialJSON = {
+                id: PublicKeyCredential.id,
+                rawId: Array.from(new Uint8Array(PublicKeyCredential.rawId)),
+                response: {
+                    authenticatorData: Array.from(new Uint8Array(PublicKeyCredential.response.authenticatorData)),
+                    clientDataJSON: Array.from(new Uint8Array(PublicKeyCredential.response.clientDataJSON)),
+                    signature: Array.from(new Uint8Array(PublicKeyCredential.response.signature)),
+                    userHandle: Array.from(new Uint8Array(PublicKeyCredential.response.userHandle))
+                },
+                type: PublicKeyCredential.type
+            }
+
+            console.log('PublicKeyCredential:', PublicKeyCredential);
+
+            // Step 5: Send the answer to the server
+            let data = JSON.stringify(PublicKeyCredentialJSON);
+            document.getElementById('PublicKeyCredentialInput').value = data;
+            document.getElementById('form').submit();
+
+        }).catch(function (err) {
+
+        // No acceptable authenticator or user refused consent
+        showError('No acceptable authenticator or user refused consent!');
+        console.log('Error inside navigator.credentials.get:', err);
+        throw new Error("No acceptable authenticator or user refused consent!");
+    });
+
+
+</script>
+
+<% include templates/footer.ejs %>
